@@ -5,7 +5,7 @@ public class Road : IRoad
     private IVehicle[,] roadTable {get; set;}
     public void SetVehicle(int row, int column, IVehicle vehicle)
     {
-        roadTable[row,column] = vehicle;
+        roadTable[row - 1,column - 1] = vehicle;
     }
     public IVehicle? GetVehicle(int row, int column)
     {

@@ -31,7 +31,7 @@ else
                         }
                         else
                         {
-                            <img src=@yourRoadVariable.GetVehicle(r, c)?.GetImagePath() height="100" />
+                            <img src=@roadInterface.GetVehicle(r, c)?.GetImagePath() height="100" />
                         }
                     </td>
                 }
@@ -64,18 +64,35 @@ else
     {
         try
         {
-            roadInterface = new Road(int.Parse(requestedNumberOfRows, int.Parse(requestedNumberOfColumns)));
+            roadInterface = new Road(int.Parse(requestedNumberOfRows), int.Parse(requestedNumberOfColumns));
         }
         catch
         {
             errorMessage = "Unable to create road";
         }
     }
-    void SetVehicle()
+    void SetVehicle(string vehicle)
     {
         try
         {
-        roadInterface.SetVehicle(int.Parse(vehicleRowInput), int.Parse(vehicleColumnInput));
+            if (vehicle == "Car")
+            {
+                roadInterface.SetVehicle(int.Parse(vehicleRowInput), int.Parse(vehicleColumnInput), new Car());
+            }
+            else if (vehicle == "Taxi")
+            {
+                roadInterface.SetVehicle(int.Parse(vehicleRowInput), int.Parse(vehicleColumnInput), new Taxi());
+            }
+            else if (vehicle == "Bus")
+            {
+                roadInterface.SetVehicle(int.Parse(vehicleRowInput), int.Parse(vehicleColumnInput), new Bus());
+            }
+            else if (vehicle == "FireTruck")
+            {
+                roadInterface.SetVehicle(int.Parse(vehicleRowInput), int.Parse(vehicleColumnInput), new FireTruck());
+            }
+            vehicleRowInput = "";
+            vehicleColumnInput = "";
         }
         catch
         {
