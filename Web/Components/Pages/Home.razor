@@ -8,3 +8,78 @@
 <br>
 <br>
 <br>
+<div>@errorMessage</div>
+
+@if (roadInterface == null)
+{
+    <input @bind=requestedNumberOfRows placeholder="Number of Rows">
+    <input @bind=requestedNumberOfColumns placeholder="Number of Columns">
+    <button @onclick=CreateRoad>Create Road</button>
+}
+else
+{
+    <table>
+        @for (int r = 0; r < roadInterface.RowCount; r++)
+        {
+            <tr>
+                @for (int c = 0; c < roadInterface.ColCount; c++)
+                {
+                    <td>
+                        @if (roadInterface.GetVehicle(r, c) == null)
+                        {
+
+                        }
+                        else
+                        {
+                            <img src=@yourRoadVariable.GetVehicle(r, c)?.GetImagePath() height="100" />
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    <div>
+        Set a Car
+
+        <div>
+            row: <input @bind=vehicleRowInput />
+        </div>
+        <div>
+            column: <input @bind=vehicleColumnInput />
+        </div>
+        <button @onclick=@(() => SetVehicle("Car"))>Set Car</button>
+        <button @onclick=@(() => SetVehicle("Bus"))>Set Bus</button>
+        <button @onclick=@(() => SetVehicle("FireTruck"))>Set FireTruck</button>
+        <button @onclick=@(() => SetVehicle("Taxi"))>Set Taxi</button>
+    </div>
+}
+@code {
+    string requestedNumberOfRows;
+    string requestedNumberOfColumns;
+    IRoad roadInterface = null;
+    string errorMessage = "";
+    string vehicleRowInput;
+    string vehicleColumnInput;
+    void CreateRoad()
+    {
+        try
+        {
+            roadInterface = new Road(int.Parse(requestedNumberOfRows, int.Parse(requestedNumberOfColumns)));
+        }
+        catch
+        {
+            errorMessage = "Unable to create road";
+        }
+    }
+    void SetVehicle()
+    {
+        try
+        {
+        roadInterface.SetVehicle(int.Parse(vehicleRowInput), int.Parse(vehicleColumnInput));
+        }
+        catch
+        {
+            errorMessage = "Unable to set vehicle location";
+        }
+    }
+}
